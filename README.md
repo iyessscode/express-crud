@@ -53,3 +53,86 @@ git branch -M main
 git remote add origin https://github.com/iyessscode/express-crud.git
 git push -u origin main
 ```
+
+## 📦 Install Dependencies
+
+Before building the API, install all required packages:
+
+### 1️⃣ Core Dependencies
+
+```bash
+npm install express express-session jsonwebtoken
+```
+
+### 2️⃣ Dev Dependency (for auto-restart)
+
+```bash
+npm install --save-dev nodemon
+```
+
+### 3️⃣ Update `package.json` Scripts
+
+Add a development script so your server restarts automatically:
+
+```json
+"scripts": {
+  "start": "node ./src/index.js",
+  "dev": "nodemon ./src/index.js"
+}
+```
+
+### 4️⃣ Create `.gitignore`
+
+Before committing your project, create a .gitignore file to keep unwanted files out of Git:
+
+```lua
+# Node modules
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Env files (DO NOT COMMIT SECRETS)
+.env
+.env.local
+.env.*.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor folders
+.vscode/
+.idea/
+
+# Build output
+dist/
+build/
+
+# Nodemon
+nodemon-debug.log
+
+# Coverage / Testing
+coverage/
+```
+
+### 5️⃣ Push to GitHub (Using on-dev Branch)
+
+Create a new development branch and push it to GitHub:
+
+```bash
+git checkout -b on-dev
+git add .
+git commit -m "setup project with dependencies"
+git push -u origin on-dev
+```
+
+If your remote hasn’t been set yet:
+
+```bash
+git remote add origin https://github.com/iyessscode/express-crud.git
+git push -u origin on-dev
+```
