@@ -1,275 +1,184 @@
-# 🚀 Practice Project — Friends List API with Express, JWT & Session Auth
+# 🔐 User Authentication Setup (Register, Login, Session, JWT)
 
-A simple yet solid practice project where you build a **Friends List CRUD API** using **Express.js**, secured with **JWT-based authentication** and session management.
-Perfect for understanding how authentication gates protect API endpoints.
+Before giving access to the `/friends` routes, we need a complete authentication flow.
+This section walks through everything you need:
 
-## 📌 What You’ll Build
+- Register users
+- Check for duplicates
+- Authenticate users
+- Create sessions
+- Generate JWT access tokens
+- Protect all `/friends` routes with middleware
 
-- Create an Express server that handles **CRUD operations** for a `friends` resource.
-- Store friends in an in-memory **JSON object**, using `email` as the key.
-- Use `body` parameters instead of `query` or `params`.
-- **Protect all CRUD routes** so only authenticated users can access them.
-- Test everything via **Postman**.
+## 0️⃣ Create a New Branch
 
-## ⚙️ Setup — Create the Application
-
-### 1️⃣ Initialize the Project
-
-Open your terminal:
+Since we are introducing authentication logic:
 
 ```bash
-npm init
+git checkout -b feat/authentication
 ```
 
-Fill in the following values:
+## 1️⃣ In-Memory Users List
 
-| Field        | Value                                                              |
-| ------------ | ------------------------------------------------------------------ |
-| package name | `crud`                                                             |
-| version      | `1.0.0`                                                            |
-| description  | _In the CRUD lab you performed CRUD operations on transient data…_ |
-| entry point  | `./src/index.js`                                                   |
-| test command | `echo \"Error: no test specified\" && exit 1`                      |
-| repository   | `https://github.com/iyessscode/express-crud.git`                   |
-| keywords     | `CREATE`, `READ`, `UPDATE`, `DELETE`, `EXPRESS`, `NODEMON`, `JWT`  |
-| author       | `https://github.com/iyessscode`                                    |
-| license      | `MIT`                                                              |
-| type         | `module`                                                           |
-
-## 🧩 Tech Stack
-
-- **Node.js**
-- **Express.js**
-- **JWT (JSON Web Token)**
-- **Postman** for testing
-- **Nodemon** for dev workflow
-
-## 🟢 Push this Project into GitHub
-
-```bash
-git add .
-git commit -m "initial setup"
-git branch -M main
-git remote add origin https://github.com/iyessscode/express-crud.git
-git push -u origin main
-```
-
-## 📦 Install Dependencies
-
-Before building the API, install all required packages:
-
-### 1️⃣ Core Dependencies
-
-```bash
-npm install express express-session jsonwebtoken
-```
-
-### 2️⃣ Dev Dependency (for auto-restart)
-
-```bash
-npm install --save-dev nodemon
-```
-
-### 3️⃣ Update `package.json` Scripts
-
-Add a development script so your server restarts automatically:
-
-```json
-"scripts": {
-  "start": "node ./src/index.js",
-  "dev": "nodemon ./src/index.js"
-}
-```
-
-### 4️⃣ Create `.gitignore`
-
-Before committing your project, create a .gitignore file to keep unwanted files out of Git:
-
-```lua
-# Node modules
-node_modules/
-
-# Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# Env files (DO NOT COMMIT SECRETS)
-.env
-.env.local
-.env.*.local
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# Editor folders
-.vscode/
-.idea/
-
-# Build output
-dist/
-build/
-
-# Nodemon
-nodemon-debug.log
-
-# Coverage / Testing
-coverage/
-```
-
-### 5️⃣ Push to GitHub (Using on-dev Branch)
-
-Create a new development branch and push it to GitHub:
-
-```bash
-git checkout -b on-dev
-git add .
-git commit -m "setup project with dependencies"
-git push -u origin on-dev
-```
-
-If your remote hasn’t been set yet:
-
-```bash
-git remote add origin https://github.com/iyessscode/express-crud.git
-git push -u origin on-dev
-```
-
-## 🗂️ Create Project Structure
-
-Follow these steps to set up the base structure of your Express application in a clean and organized way.
-
-### 1️⃣ Create a Feature Branch
-
-Before making structural changes, create a new branch:
-
-```bash
-git checkout -b feat/setup-project-structure
-```
-
-This keeps your development workflow clean and professional.
-
-### 2️⃣ Create the `src` Folder and `index.js`
-
-This file will be the entry point of your Express application.
-
-```bash
-mkdir src
-touch src/index.js
-```
-
-Your project now contains:
-
-```
-src/
-└── index.js
-```
-
-### 3️⃣ Create the `routers` Folder and `friendsRouter.js`
-
-This router will handle your Friends CRUD API.
-
-```bash
-mkdir src/routers
-touch src/routers/friendsRouter.js
-```
-
-Updated structure:
-
-```
-src/
-├── index.js
-└── routers/
-    └── friendsRouter.js
-```
-
-### 4️⃣ Commit Your Changes
-
-After creating the folder structure and files:
-
-```bash
-git add .
-git commit -m "Add project structure and base router files"
-```
-
-### 5️⃣ Push the Branch to GitHub
-
-Push your new feature branch:
-
-```bash
-git push -u origin feat/setup-project-structure
-```
-
-## 🚀 Initialize the Express Server (`index.js`)
-
-Now that your project structure is ready, let’s set up the main server file where the Express app, middleware, and routers will live.
-
-### 0️⃣ Create a New Branch for Server Setup
-
-```bash
-git checkout -b feat/setup-express-server
-```
-
-This branch will contain everything related to initializing the Express application.
-
-### 1️⃣ Create a Basic Express Server
-
-Open `src/index.js` and add the following starter code:
+At the top of `src/index.js`, add:
 
 ```js
-import express from 'express';
+// Temporary in-memory users storage
+let users = [];
+```
 
-const app = express();
-const PORT = process.env.PORT || 8080;
+This is only for learning — no database yet.
 
-// Middleware to read JSON body
-app.use(express.json());
+## 2️⃣ Utility: Check if Username Already Exists
 
-// Root route (optional)
-app.get('/', (req, res) => {
-	res.send('API is running...');
+```js
+const userExists = (username) => {
+	return user.filter((u) => u.username === username).length > 0;
+};
+```
+
+This ensures all usernames remain unique.
+
+## 3️⃣ Utility: Validate Username + Password
+
+```js
+const authenticatedUser = (username, password) => {
+	return (
+		user.filter((u) => u.username === username && u.password === password)
+			.length > 0
+	);
+};
+```
+
+This is used during login.
+
+## 4️⃣ Register Endpoint (`POST /register`)
+
+Open `src/index.js` and add:
+
+```js
+app.post('/register', (req, res) => {
+	// get username and password from request body
+	const { username, password } = req.body;
+
+	// check if username or password is missing
+	if (!username || !password) {
+		return res.status(404).json({ message: 'Username or password missing' });
+	}
+
+	// check if user already exists
+	if (userExists(username)) {
+		return res.status(409).json({ message: 'User already exists' });
+	}
+
+	// Add new user to the user array
+	user.push({
+		username,
+		password,
+	});
+
+	return res
+		.status(200)
+		.json({ message: 'User successfully registered. Now you can login' });
 });
+```
 
-// Start server
-app.listen(PORT, () => {
-	console.log(`Server is running on http://localhost:${PORT}`);
+✔️ No authentication required for registration.
+
+## 5️⃣ Enable Session Middleware
+
+Add this after `express.json()`:
+
+```js
+import session from 'express-session';
+
+app.use(
+	session({
+		secret: 'fingerprint',
+		resave: true,
+		saveUninitialized: true,
+	})
+);
+```
+
+This allows storing JWT tokens inside `req.session`.
+
+## 6️⃣ Login Endpoint (`POST /login`)
+
+```js
+app.post('/login', (req, res) => {
+	// get username and password from request body
+	const { username, password } = req.body;
+
+	// check if username or password is missing
+	if (!username || !password) {
+		return res.status(404).json({ message: 'Invalid credentials' });
+	}
+
+	if (!authenticatedUser(username, password)) {
+		return res
+			.status(404)
+			.json({ message: 'Invalid login. Check username and password' });
+	}
+
+	// Authenticate the user
+
+	// Generate JWT access token
+	let accessToken = jwt.sign({ data: password }, 'access', {
+		expiresIn: 60 * 60,
+	});
+
+	// Store access token and username in session
+	req.session.authorization = {
+		accessToken,
+		username,
+	};
+
+	return res.status(200).json({ message: 'User successfully logged in' });
 });
 ```
 
-### 2️⃣ Run the Server (Development Mode)
+✔️ Generates JWT
+✔️ Saves token + username inside the session
 
-Use nodemon to auto-restart on file changes:
+## 7️⃣ Protect `/friends` Routes With Auth Middleware
 
-```bash
-npm run dev
+This ensures only logged-in users can access your Friends API.
+
+```js
+app.use('/friends', (req, res, next) => {
+	// Check if user is logged in and has valid access token
+	if (req.session.authorization) {
+		let token = req.session.authorization['accessToken'];
+
+		// verify JWT token
+		jwt.verify(token, 'access', (error, user) => {
+			if (!error) {
+				req.user = user;
+				next();
+			} else {
+				return res.status(403).json({ message: 'User not authenticated' });
+			}
+		});
+	} else {
+		return res.status(403).json({ message: 'User not logged in' });
+	}
+});
 ```
 
-You should see:
+## 8️⃣ After Authentication → Continue With CRUD
 
-```
-Server is running on http://localhost:8080
-```
+Now `/friends` is protected.
+To test in Postman:
 
-Open your browser:
+1. Register via `POST /register`
+2. Login via `POST /login`
+3. Now call all `/friends/*` endpoints
 
-👉 [http://localhost:8080/](http://localhost:8080/)
-
-You should get:
-**API is running...”**
-
-### 3️⃣ Commit the Server Setup
-
-Now commit your work:
+## 9️⃣ Commit & Push
 
 ```bash
 git add .
-git commit -m "Initialize Express server with basic setup"
-```
-
-### 4️⃣ Push to GitHub
-
-```bash
-git push -u origin feat/setup-express-server
+git commit -m "Add authentication flow (register, login, session, JWT)"
+git push -u origin feat/authentication
 ```
