@@ -52,7 +52,22 @@ friendsRouter.post('/', (req, res) => {
 
 // PUT request: Update the details of a friend with email id
 friendsRouter.put('/:email', (req, res) => {
-	res.send('Not yet implemented: Update a friend by email');
+	const email = req.params.email;
+
+	let friend = friends[email];
+	if (!friend) {
+		return res.status(404).send('Friend not found');
+	}
+
+	const { firstName, lastName, dob } = req.body;
+
+	if (firstName) friend.firstName = firstName;
+	if (lastName) friend.lastName = lastName;
+	if (dob) friend.DOB = dob;
+
+	friends[email] = friend;
+
+	res.send(`The user with email ${email} has been updated!`);
 });
 
 // DELETE request: Delete a friend by email id
