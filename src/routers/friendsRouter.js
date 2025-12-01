@@ -31,9 +31,28 @@ friendsRouter.get('/:email', (req, res) => {
 	res.send(friends[email]);
 });
 
-// POST request: Update the details of a friend with email id
+// POST request: Add a new friend
+friendsRouter.post('/', (req, res) => {
+	const { email, firstName, lastName, dob } = req.body;
+	console.log(req.body);
+	if (!email || !firstName || !lastName || !dob) {
+		res
+			.status(400)
+			.send('Missing required fields: email, firstName, lastName, dob');
+	}
+
+	friends[email] = {
+		firstName: firstName,
+		lastName: lastName,
+		DOB: dob,
+	};
+
+	res.send(`The user ${firstName} has been added!`);
+});
+
+// PUT request: Update the details of a friend with email id
 friendsRouter.put('/:email', (req, res) => {
-	res.send('Not yet implemented: Update friend details by email');
+	res.send('Not yet implemented: Update a friend by email');
 });
 
 // DELETE request: Delete a friend by email id
