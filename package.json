@@ -1,0 +1,29 @@
+{
+	"name": "crud",
+	"version": "1.0.0",
+	"description": "In the CRUD lab you performed CRUD operations on transient data by creating API endpoints with an Express Server. In this lab, you will restrict these operations to authenticated users using JWT and session authentication.",
+	"keywords": [
+		"CREATE",
+		"READ",
+		"UPDATE",
+		"DELETE",
+		"EXPRESS",
+		"NODEMON",
+		"JWT"
+	],
+	"homepage": "https://github.com/iyessscode/express-crud#readme",
+	"bugs": {
+		"url": "https://github.com/iyessscode/express-crud/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/iyessscode/express-crud.git"
+	},
+	"license": "MIT",
+	"author": "https://github.com/iyessscode",
+	"type": "module",
+	"main": "./src/index.js",
+	"scripts": {
+		"test": "echo \\\"Error: no test specified\\\" && exit 1"
+	}
+}
