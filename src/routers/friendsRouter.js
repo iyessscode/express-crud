@@ -27,7 +27,8 @@ friendsRouter.get('/', (req, res) => {
 
 // GET by specific ID request: Retrieve a single friend by email
 friendsRouter.get('/:email', (req, res) => {
-	res.send('Not yet implemented: Retrieve a single friend by email');
+	const email = req.params.email;
+	res.send(friends[email]);
 });
 
 // POST request: Update the details of a friend with email id
