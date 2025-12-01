@@ -76,7 +76,14 @@ friendsRouter.put('/:email', (req, res) => {
 
 // DELETE request: Delete a friend by email id
 friendsRouter.delete('/:email', (req, res) => {
-	res.send('Not yet implemented: Delete a friend by email');
+	const email = req.params.email;
+	if (!friends[email]) {
+		return res.status(404).json({ message: 'Friend not found' });
+	}
+
+	delete friends[email];
+
+	res.send(`The user with email ${email} has been deleted!`);
 });
 
 export default friendsRouter;
