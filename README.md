@@ -201,5 +201,3 @@ Push your new feature branch:
 ```bash
 git push -u origin feat/setup-project-structure
 ```
-
-If you’re ready, say **next section** and we’ll continue with initializing your Express server (`index.js`)!
