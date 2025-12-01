@@ -38,7 +38,6 @@ friendsRouter.get('/:email', (req, res) => {
 // POST request: Add a new friend
 friendsRouter.post('/', (req, res) => {
 	const { email, firstName, lastName, dob } = req.body;
-	console.log(req.body);
 	if (!email || !firstName || !lastName || !dob) {
 		res.status(400).json({
 			message: 'Missing required fields: email, firstName, lastName, dob',
