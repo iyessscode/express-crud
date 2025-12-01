@@ -28,6 +28,10 @@ friendsRouter.get('/', (req, res) => {
 // GET by specific ID request: Retrieve a single friend by email
 friendsRouter.get('/:email', (req, res) => {
 	const email = req.params.email;
+	if (!friends[email]) {
+		return res.status(404).json({ message: 'Friend not found' });
+	}
+
 	res.send(friends[email]);
 });
 
@@ -36,9 +40,9 @@ friendsRouter.post('/', (req, res) => {
 	const { email, firstName, lastName, dob } = req.body;
 	console.log(req.body);
 	if (!email || !firstName || !lastName || !dob) {
-		res
-			.status(400)
-			.send('Missing required fields: email, firstName, lastName, dob');
+		res.status(400).json({
+			message: 'Missing required fields: email, firstName, lastName, dob',
+		});
 	}
 
 	friends[email] = {
@@ -56,7 +60,7 @@ friendsRouter.put('/:email', (req, res) => {
 
 	let friend = friends[email];
 	if (!friend) {
-		return res.status(404).send('Friend not found');
+		return res.status(404).json({ message: 'Friend not found' });
 	}
 
 	const { firstName, lastName, dob } = req.body;
