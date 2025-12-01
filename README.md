@@ -136,3 +136,70 @@ If your remote hasn’t been set yet:
 git remote add origin https://github.com/iyessscode/express-crud.git
 git push -u origin on-dev
 ```
+
+## 🗂️ Create Project Structure
+
+Follow these steps to set up the base structure of your Express application in a clean and organized way.
+
+### 1️⃣ Create a Feature Branch
+
+Before making structural changes, create a new branch:
+
+```bash
+git checkout -b feat/setup-project-structure
+```
+
+This keeps your development workflow clean and professional.
+
+### 2️⃣ Create the `src` Folder and `index.js`
+
+This file will be the entry point of your Express application.
+
+```bash
+mkdir src
+touch src/index.js
+```
+
+Your project now contains:
+
+```
+src/
+└── index.js
+```
+
+### 3️⃣ Create the `routers` Folder and `friendsRouter.js`
+
+This router will handle your Friends CRUD API.
+
+```bash
+mkdir src/routers
+touch src/routers/friendsRouter.js
+```
+
+Updated structure:
+
+```
+src/
+├── index.js
+└── routers/
+    └── friendsRouter.js
+```
+
+### 4️⃣ Commit Your Changes
+
+After creating the folder structure and files:
+
+```bash
+git add .
+git commit -m "Add project structure and base router files"
+```
+
+### 5️⃣ Push the Branch to GitHub
+
+Push your new feature branch:
+
+```bash
+git push -u origin feat/setup-project-structure
+```
+
+If you’re ready, say **next section** and we’ll continue with initializing your Express server (`index.js`)!
