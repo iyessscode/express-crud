@@ -201,3 +201,75 @@ Push your new feature branch:
 ```bash
 git push -u origin feat/setup-project-structure
 ```
+
+## 🚀 Initialize the Express Server (`index.js`)
+
+Now that your project structure is ready, let’s set up the main server file where the Express app, middleware, and routers will live.
+
+### 0️⃣ Create a New Branch for Server Setup
+
+```bash
+git checkout -b feat/setup-express-server
+```
+
+This branch will contain everything related to initializing the Express application.
+
+### 1️⃣ Create a Basic Express Server
+
+Open `src/index.js` and add the following starter code:
+
+```js
+import express from 'express';
+
+const app = express();
+const PORT = process.env.PORT || 8080;
+
+// Middleware to read JSON body
+app.use(express.json());
+
+// Root route (optional)
+app.get('/', (req, res) => {
+	res.send('API is running...');
+});
+
+// Start server
+app.listen(PORT, () => {
+	console.log(`Server is running on http://localhost:${PORT}`);
+});
+```
+
+### 2️⃣ Run the Server (Development Mode)
+
+Use nodemon to auto-restart on file changes:
+
+```bash
+npm run dev
+```
+
+You should see:
+
+```
+Server is running on http://localhost:8080
+```
+
+Open your browser:
+
+👉 [http://localhost:8080/](http://localhost:8080/)
+
+You should get:
+**API is running...”**
+
+### 3️⃣ Commit the Server Setup
+
+Now commit your work:
+
+```bash
+git add .
+git commit -m "Initialize Express server with basic setup"
+```
+
+### 4️⃣ Push to GitHub
+
+```bash
+git push -u origin feat/setup-express-server
+```
