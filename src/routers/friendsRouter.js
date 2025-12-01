@@ -22,7 +22,7 @@ let friends = {
 
 // GET /friends - Retrieve all friends
 friendsRouter.get('/', (req, res) => {
-	res.send('Not yet implemented: Retrieve all friends');
+	res.send(JSON.stringify(friends, null, 2));
 });
 
 // GET by specific ID request: Retrieve a single friend by email
