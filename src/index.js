@@ -1,6 +1,7 @@
 import express from 'express';
 import session from 'express-session';
 import jwt from 'jsonwebtoken';
+import friendsRouter from './routers/friendsRouter.js';
 
 let user = [];
 
@@ -112,6 +113,9 @@ app.post('/register', (req, res) => {
 		.status(200)
 		.json({ message: 'User successfully registered. Now you can login' });
 });
+
+// adding friends router
+app.use('/friends', friendsRouter);
 
 // Start the server
 app.listen(PORT, () => {
